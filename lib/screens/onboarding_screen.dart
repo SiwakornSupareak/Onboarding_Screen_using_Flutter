@@ -40,7 +40,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeIn,
       );
     } else {
-      // Navigate to WelcomePage when onboarding is completed
       Navigator.of(context).pushReplacementNamed('/welcome');
     }
   }
@@ -54,6 +53,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
+  void _skipToWelcome() {
+    Navigator.of(context).pushReplacementNamed('/welcome');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +65,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           'Onboarding',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.black, // Black background for AppBar
+        backgroundColor: Colors.black,
+        actions: [
+          TextButton(
+            onPressed: _skipToWelcome,
+            child: const Text(
+              'Skip',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: PageView(
         controller: _pageController,
@@ -71,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
       bottomSheet: Container(
         height: 80,
-        width: 380,
+        width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -80,7 +92,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: _previousPage,
                 child: const Text('Back'),
               ),
-            // Page indicators (dots) - Only show if not on the first page
             if (_currentPage > 0)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
